@@ -1,0 +1,27 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: api-gateway
+  profiles:
+    active: default
+  cloud:
+    gateway:
+      default-filters:
+      routes:
+        #系统管理服务
+        - id: system-service
+          uri: lb://system-service
+          predicates:
+            - Path=/**
+
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://${EUREKA_URL}/eureka

@@ -1,0 +1,24 @@
+server:
+  port: 8079
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: discovery-server
+  profiles:
+    active: default
+    #jmx:
+    #default-domain: discovery-server #当多个Spring Boot项目部署到Tomcat容器中需要制定JMX Domain
+
+eureka:
+  client:
+    fetch-registry: false # 是否要从其他Eureka Server实例获取数据
+    register-with-eureka: false # 是否要注册到其他Eureka Server实例
+    service-url:
+      defaultZone: http://${EUREKA_URL}/eureka
+  instance:
+    prefer-ip-address: true
+  server:
+    enable-self-preservation: false #关闭自我保护，从而保证会注销服务
+    eviction-interval-timer-in-ms: 60000 #清理间隔时间

@@ -1,0 +1,22 @@
+server:
+  port: 8078
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:cloud-config
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8079/eureka
+  instance:
+    prefer-ip-address: true

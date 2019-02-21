@@ -34,14 +34,14 @@ public class GlobalExceptionHandler {
             BusinessException exception = (BusinessException) e;
             return ResponseEntity.factory(exception.getCode(), exception.getMessage());
         } else if (e instanceof NoHandlerFoundException) { // 路径不存在异常处理
-            return ResponseEntity.factory(ResponseMessage.INVOKE_FAILURE, "地址不存在");
+            return ResponseEntity.factory(ResponseMessage.INVOKE_FAILURE, "服务不可用，请稍后再试。");
         } else if (e instanceof ConstraintViolationException) { //方法参数验证异常处理
             ConstraintViolationException exception = (ConstraintViolationException) e;
 
             Set<ConstraintViolation<?>> constraintViolations = exception.getConstraintViolations();
 
             if (constraintViolations.size() == 0) {
-                return ResponseEntity.factory(ResponseMessage.INVOKE_FAILURE, "参数验证错误");
+                return ResponseEntity.factory(ResponseMessage.INVOKE_FAILURE, "参数验证错误。");
             }
 
             ConstraintViolation<?> constraintViolation = null;
@@ -58,7 +58,7 @@ public class GlobalExceptionHandler {
             BindException exception = (BindException) e;
             return getFieldErrors(exception.getBindingResult());
         } else { // 其他异常处理
-            return ResponseEntity.factory(ResponseMessage.INVOKE_FAILURE, "未知错误");
+            return ResponseEntity.factory(ResponseMessage.INVOKE_FAILURE, "未知错误。");
         }
     }
 

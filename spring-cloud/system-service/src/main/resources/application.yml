@@ -18,6 +18,24 @@ spring:
     port: ${REDIS_PORT}
     password: ${REDIS_PASSWD}
     database: 1
+  datasource:
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/?useUnicode=true&characterEncoding=UTF-8
+      username: ${MYSQL_USER}
+      password: ${MYSQL_PASSWD}
+      initial-size: 1
+      max-active: 5
+      max-wait: 100
+      filters: stat,wall
+      filter:
+        wall:
+          config:
+            truncate-allow: false #不允许执行truncate命令
+            alter-table-allow: false #不允许修改Table
+            drop-table-allow: false #不允许删除Table
+
+
 
 eureka:
   instance:

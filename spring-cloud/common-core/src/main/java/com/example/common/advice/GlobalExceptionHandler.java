@@ -1,8 +1,9 @@
 package com.example.common.advice;
 
-import com.example.common.exceptions.BusinessException;
+import static com.example.common.web.response.ResponseMessage.INVOKE_FAILURE;
+
+import com.example.common.exception.BusinessException;
 import com.example.common.web.response.ResponseEntity;
-import com.example.common.web.response.ResponseMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -34,14 +35,14 @@ public class GlobalExceptionHandler {
             BusinessException exception = (BusinessException) e;
             return ResponseEntity.factory(exception.getCode(), exception.getMessage());
         } else if (e instanceof NoHandlerFoundException) { // 路径不存在异常处理
-            return ResponseEntity.factory(ResponseMessage.INVOKE_FAILURE, "服务不可用，请稍后再试。");
+            return ResponseEntity.factory(INVOKE_FAILURE, "服务不可用，请稍后再试。");
         } else if (e instanceof ConstraintViolationException) { //方法参数验证异常处理
             ConstraintViolationException exception = (ConstraintViolationException) e;
 
             Set<ConstraintViolation<?>> constraintViolations = exception.getConstraintViolations();
 
             if (constraintViolations.size() == 0) {
-                return ResponseEntity.factory(ResponseMessage.INVOKE_FAILURE, "参数验证错误。");
+                return ResponseEntity.factory(INVOKE_FAILURE, "参数验证错误。");
             }
 
             ConstraintViolation<?> constraintViolation = null;
@@ -50,7 +51,7 @@ public class GlobalExceptionHandler {
                 continue;
             }
 
-            return ResponseEntity.factory(ResponseMessage.INVOKE_FAILURE, constraintViolation.getMessage());
+            return ResponseEntity.factory(INVOKE_FAILURE, constraintViolation.getMessage());
         }else if (e instanceof MethodArgumentNotValidException) { //属性绑定异常处理
             MethodArgumentNotValidException exception = (MethodArgumentNotValidException) e;
             return getFieldErrors(exception.getBindingResult());
@@ -58,7 +59,7 @@ public class GlobalExceptionHandler {
             BindException exception = (BindException) e;
             return getFieldErrors(exception.getBindingResult());
         } else { // 其他异常处理
-            return ResponseEntity.factory(ResponseMessage.INVOKE_FAILURE, "未知错误。");
+            return ResponseEntity.factory(INVOKE_FAILURE, "未知错误。");
         }
     }
 
@@ -66,9 +67,9 @@ public class GlobalExceptionHandler {
 
         if (bindingResult.getFieldErrors().size() > 0) {
             FieldError fieldError = bindingResult.getFieldErrors().get(0);
-            return ResponseEntity.factory(ResponseMessage.INVOKE_FAILURE, fieldError.getDefaultMessage());
+            return ResponseEntity.factory(INVOKE_FAILURE, fieldError.getDefaultMessage());
         } else {
-            return ResponseEntity.factory(ResponseMessage.INVOKE_FAILURE);
+            return ResponseEntity.factory(INVOKE_FAILURE);
         }
     }
 }

@@ -1,6 +1,8 @@
 package com.example.common.security.dao;
 
-import com.example.common.constants.WebSecurityConstant;
+import static com.example.common.constants.WebSecurityConstant.ACCESS_TOKEN_EXPIRATION;
+import static com.example.common.constants.WebSecurityConstant.REFRESH_TOKEN_EXPIRATION;
+
 import com.example.common.redis.BaseRedisDAO;
 import com.example.common.util.AccountInfo;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -18,7 +20,7 @@ public class CustomUserDetailsRedisDAO extends BaseRedisDAO<String, AccountInfo>
 
     public void setUserDetails(String key, AccountInfo value) {
         ValueOperations<String, AccountInfo> valueOperations = redisTemplate.opsForValue();
-        valueOperations.set(key, value, WebSecurityConstant.TOKEN_EXPIRATION, TimeUnit.SECONDS);
+        valueOperations.set(key, value, ACCESS_TOKEN_EXPIRATION, TimeUnit.SECONDS);
     }
 
     /**
@@ -28,7 +30,7 @@ public class CustomUserDetailsRedisDAO extends BaseRedisDAO<String, AccountInfo>
      */
     public void setRefreshDetail(String key, AccountInfo value){
         ValueOperations<String, AccountInfo> valueOperations = redisTemplate.opsForValue();
-        valueOperations.set(key, value);
+        valueOperations.set(key, value, REFRESH_TOKEN_EXPIRATION, TimeUnit.DAYS);
     }
 
     /**

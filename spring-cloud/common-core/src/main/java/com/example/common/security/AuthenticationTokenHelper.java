@@ -1,6 +1,8 @@
 package com.example.common.security;
 
-import com.example.common.constants.WebSecurityConstant;
+import static com.example.common.constants.WebSecurityConstant.ACCESS_TOKEN_EXPIRATION;
+import static com.example.common.constants.WebSecurityConstant.TOKEN_SECRET_KEY;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -27,7 +29,7 @@ public class AuthenticationTokenHelper {
     private Claims getClaimsFromToken(String token) {
         Claims claims = null;
         try {
-            claims = Jwts.parser().setSigningKey(WebSecurityConstant.TOKEN_SECRET).parseClaimsJws(token).getBody();
+            claims = Jwts.parser().setSigningKey(TOKEN_SECRET_KEY).parseClaimsJws(token).getBody();
         } catch (Exception e) {
             claims = null;
         }
@@ -39,7 +41,7 @@ public class AuthenticationTokenHelper {
         String token = Jwts.builder().setSubject(username)
                 .setIssuedAt(generateCurrentDate())
                 .setExpiration(generateExpirationDate())
-                .signWith(SignatureAlgorithm.HS512, WebSecurityConstant.TOKEN_SECRET)
+                .signWith(SignatureAlgorithm.HS512, TOKEN_SECRET_KEY)
                 .compact();
         return token;
     }
@@ -49,6 +51,6 @@ public class AuthenticationTokenHelper {
     }
 
     private Date generateExpirationDate() {
-        return new Date(System.currentTimeMillis() + WebSecurityConstant.TOKEN_EXPIRATION * 1000);
+        return new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION * 1000);
     }
 }

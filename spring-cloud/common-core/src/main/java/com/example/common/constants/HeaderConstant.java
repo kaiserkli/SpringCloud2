@@ -1,7 +1,7 @@
 package com.example.common.constants;
 
 /**
- *
+ * 头信息KEY
  */
 public interface HeaderConstant {
 

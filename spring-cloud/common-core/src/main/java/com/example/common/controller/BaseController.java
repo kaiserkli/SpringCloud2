@@ -1,7 +1,7 @@
 package com.example.common.controller;
 
 import com.example.common.constants.HeaderConstant;
-import com.example.common.exceptions.BusinessException;
+import com.example.common.exception.BusinessException;
 import com.example.common.security.service.CustomUserDetailsService;
 import com.example.common.util.AccountInfo;
 import com.example.common.web.response.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.example.common.exceptions;
+package com.example.common.exception;
 
 import com.example.common.web.response.ResponseMessage;
 

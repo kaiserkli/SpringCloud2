@@ -10,14 +10,17 @@ spring:
     active: default
   cloud:
     gateway:
-      default-filters:
+      globalcors:
+        cors-configurations:
+          '[/**]': #对所有路径增加CORS配置
+            allowedOrigins: '*' #支持跨域
+            allowedMethods: GET,POST,PUT,DELETE,OPTIONS
       routes:
         #系统管理服务
         - id: system-service
-          uri: lb://system-service
+          uri: lb://system-service #使用负载均衡模式
           predicates:
             - Path=/**
-
 
 eureka:
   instance:
@@ -25,3 +28,7 @@ eureka:
   client:
     service-url:
       defaultZone: http://${EUREKA_URL}/eureka
+
+anonymous-uris: #自定义匿名访问地址，可以通过正则表达式进行匹配
+  /**,
+  /hello

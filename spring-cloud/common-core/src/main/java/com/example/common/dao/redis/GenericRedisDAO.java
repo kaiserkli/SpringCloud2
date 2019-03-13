@@ -1,4 +1,4 @@
-package com.example.common.redis;
+package com.example.common.dao.redis;
 
 import java.util.List;
 import java.util.Map;

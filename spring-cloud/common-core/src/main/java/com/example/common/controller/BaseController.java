@@ -9,7 +9,6 @@ import com.example.common.web.response.ResponseMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -60,7 +59,7 @@ public class BaseController {
         String accessToken = request.getHeader(HeaderConstant.HEADER_ACCESS_TOKEN);
 
         // 从Cookie中获取Access-Token数据
-        Cookie[] cookies = request.getCookies();
+        /*Cookie[] cookies = request.getCookies();
 
         if (null != cookies) {
             for (Cookie cookie : cookies) {
@@ -69,7 +68,7 @@ public class BaseController {
                     break;
                 }
             }
-        }
+        }*/
 
         if(accessToken == null){
             log.error("Access Token为空！");

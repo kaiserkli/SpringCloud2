@@ -9,7 +9,6 @@ import com.example.common.web.response.ResponseMessage;
  */
 public class BusinessException extends RuntimeException {
 
-	private static final long serialVersionUID = -8324192027482171489L;
 	private String code;
 
 	public BusinessException(ResponseMessage responseMessage) {

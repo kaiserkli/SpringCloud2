@@ -1,4 +1,6 @@
-package com.example.common.mybatis;
+package com.example.common.dao.mybatis;
+
+import com.example.common.entity.BaseEntity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -11,7 +13,7 @@ import java.util.Map;
  * @param <E> 实体范型
  * @param <ID> ID标示
  */
-public interface GenericDao<E, ID extends Serializable> {
+public interface GenericDao<E extends BaseEntity, ID extends Serializable> {
 
 	public E getById(ID id);
 	

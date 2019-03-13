@@ -3,7 +3,7 @@ package com.example.common.security.dao;
 import static com.example.common.constants.WebSecurityConstant.ACCESS_TOKEN_EXPIRATION;
 import static com.example.common.constants.WebSecurityConstant.REFRESH_TOKEN_EXPIRATION;
 
-import com.example.common.redis.BaseRedisDAO;
+import com.example.common.dao.redis.BaseRedisDAO;
 import com.example.common.util.AccountInfo;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -18,15 +18,20 @@ public class CustomUserDetailsRedisDAO extends BaseRedisDAO<String, AccountInfo>
     @Resource
     private RedisTemplate<String, AccountInfo> redisTemplate;
 
+    /**
+     * access token放入redis
+     * @param key accessToken
+     * @param value 数据
+     */
     public void setUserDetails(String key, AccountInfo value) {
         ValueOperations<String, AccountInfo> valueOperations = redisTemplate.opsForValue();
         valueOperations.set(key, value, ACCESS_TOKEN_EXPIRATION, TimeUnit.SECONDS);
     }
 
     /**
-     * 刷新token放入redis（无过期时间）
+     * refresh token放入redis
      * @param key refreshToken
-     * @param value
+     * @param value 数据
      */
     public void setRefreshDetail(String key, AccountInfo value){
         ValueOperations<String, AccountInfo> valueOperations = redisTemplate.opsForValue();

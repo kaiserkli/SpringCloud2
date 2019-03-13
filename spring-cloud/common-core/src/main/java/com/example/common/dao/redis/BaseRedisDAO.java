@@ -1,4 +1,4 @@
-package com.example.common.redis;
+package com.example.common.dao.redis;
 
 import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.RedisTemplate;

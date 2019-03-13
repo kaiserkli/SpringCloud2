@@ -30,5 +30,5 @@ eureka:
       defaultZone: http://${EUREKA_URL}/eureka
 
 anonymous-uris: #自定义匿名访问地址，可以通过正则表达式进行匹配
-  /**,
-  /hello
+  /auth/**,
+  /sms/send

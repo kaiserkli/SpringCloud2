@@ -1,7 +1,13 @@
 package com.example.gateway.filter;
 
+import static com.example.common.web.response.ResponseMessage.TOKEN_TIMEOUT;
+
+import com.example.common.exception.BusinessException;
+import com.example.common.security.service.CustomUserDetailsService;
+import com.example.common.util.AccountInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -18,6 +24,9 @@ public class AccessTokenFilter implements GlobalFilter, Ordered {
 
     @Value("${anonymous-uris}")
     private String anonymousUris;
+
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
 
     private AntPathMatcher antPathMatcher = new AntPathMatcher();
 
@@ -36,7 +45,7 @@ public class AccessTokenFilter implements GlobalFilter, Ordered {
 
         //用户判断是从那个平台过来的请求
         if (StringUtils.isEmpty(code) || StringUtils.isEmpty(secret)) {
-           //throw new RuntimeException("无访问权限");
+           //throw new BusinessException("无访问权限");
         }
 
         boolean isAnonymous = false;
@@ -58,7 +67,13 @@ public class AccessTokenFilter implements GlobalFilter, Ordered {
             }
 
             //验证Access Token
-            //
+            AccountInfo accountInfo = customUserDetailsService.getSession(accessToken);
+
+            if (null == accountInfo) {
+                throw new BusinessException(TOKEN_TIMEOUT);
+            }
+
+            customUserDetailsService.refreshSession(accountInfo);
         }
 
         return chain.filter(exchange);
